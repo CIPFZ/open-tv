@@ -1,0 +1,77 @@
+{
+  "name": "open-tv",
+  "version": "0.1.0",
+  "description": "Open TV - a TV-first IPTV player for desktop",
+  "homepage": "https://open-tv.invalid",
+  "desktopName": "open-tv",
+  "main": "dist/main/main.cjs",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "start": "npm run build && electron .",
+    "build": "node scripts/build.mjs",
+    "check": "tsc --noEmit",
+    "check:contract": "node scripts/check-portable-contract.mjs",
+    "typecheck": "tsc --noEmit",
+    "test": "tsx --test tests/*.test.ts",
+    "pack": "npm run build && electron-builder --publish never",
+    "pack:dir": "npm run build && electron-builder --dir",
+    "preview": "vite preview --host 127.0.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.4",
+    "electron": "^38.1.0",
+    "electron-builder": "^26.15.3",
+    "esbuild": "^0.28.2",
+    "tsx": "^4.23.15",
+    "typescript": "^5.9.2",
+    "vite": "^8.3.4"
+  },
+  "dependencies": {
+    "fast-xml-parser": "^5.11.2",
+    "hls.js": "^1.7.3"
+  },
+  "build": {
+    "appId": "org.opentv.desktop",
+    "productName": "Open TV",
+    "icon": "assets/icon.png",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "package.json"
+    ],
+    "asar": true,
+    "mac": {
+      "target": [
+        "dmg",
+        "zip"
+      ],
+      "category": "public.app-category.entertainment"
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ]
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ],
+      "category": "AudioVideo",
+      "maintainer": "contributors@open-tv.invalid",
+      "executableName": "open-tv",
+      "syncDesktopName": true
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    }
+  },
+  "author": {
+    "name": "Open TV contributors",
+    "email": "contributors@open-tv.invalid"
+  }
+}

@@ -1,0 +1,9 @@
+<tv>
+  <programme channel="news-1" start="20261010120000 +0800" stop="20261010130000 +0800">
+    <title>午间新闻</title>
+    <desc>固定夹具节目，用于本地测试。</desc>
+  </programme>
+  <programme channel="news-1" start="20261010130000 +0800" stop="20261010140000 +0800">
+    <title>财经观察</title>
+  </programme>
+</tv>

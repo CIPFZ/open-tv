@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:open-tv:config:v1",
+  "title": "Open TV portable configuration",
+  "description": "Versioned local configuration shared by the PC, Android and Android TV clients.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "playlists", "activePlaylistId", "lastChannelId", "volume", "muted", "settings", "epg"],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "playlists": {
+      "type": "array",
+      "maxItems": 100,
+      "items": {"$ref": "#/$defs/playlist"}
+    },
+    "activePlaylistId": {"type": "string", "maxLength": 100},
+    "lastChannelId": {"type": "string", "maxLength": 200},
+    "recent": {
+      "type": "array",
+      "description": "Legacy compatibility field. Current TV UI does not display or update it.",
+      "maxItems": 20,
+      "items": {"type": "string", "maxLength": 200}
+    },
+    "volume": {"type": "number", "minimum": 0, "maximum": 100},
+    "muted": {"type": "boolean"},
+    "settings": {"$ref": "#/$defs/settings"},
+    "epg": {"$ref": "#/$defs/epg"}
+  },
+  "$defs": {
+    "playlist": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "kind", "url", "enabled", "channels", "lastLoadedAt", "health", "skippedCount"],
+      "properties": {
+        "id": {"type": "string", "maxLength": 100},
+        "name": {"type": "string", "minLength": 1, "maxLength": 80},
+        "kind": {"enum": ["remote", "local"]},
+        "url": {"type": "string", "maxLength": 8192},
+        "enabled": {"type": "boolean"},
+        "channels": {"type": "array", "items": {"$ref": "#/$defs/channel"}},
+        "text": {"type": "string", "maxLength": 15728640},
+        "lastLoadedAt": {"type": ["integer", "null"]},
+        "error": {"type": "string", "maxLength": 240},
+        "health": {"enum": ["unknown", "loading", "healthy", "degraded", "error"]},
+        "skippedCount": {"type": "integer", "minimum": 0},
+        "lastError": {"$ref": "#/$defs/sourceError"}
+      }
+    },
+    "channel": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "playlistId", "number", "name", "url", "group", "tvgId", "logo", "language", "country"],
+      "properties": {
+        "id": {"type": "string", "maxLength": 200},
+        "playlistId": {"type": "string", "maxLength": 100},
+        "number": {"type": "integer", "minimum": 1},
+        "name": {"type": "string", "minLength": 1, "maxLength": 200},
+        "url": {"type": "string", "maxLength": 8192},
+        "group": {"type": "string", "maxLength": 120},
+        "tvgId": {"type": "string", "maxLength": 200},
+        "logo": {"type": "string", "maxLength": 8192},
+        "language": {"type": "string", "maxLength": 40},
+        "country": {"type": "string", "maxLength": 40}
+      }
+    },
+    "sourceError": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code", "message", "at"],
+      "properties": {
+        "code": {"enum": ["network", "timeout", "restricted", "http", "format", "empty", "insecure", "unknown"]},
+        "message": {"type": "string", "maxLength": 240},
+        "at": {"type": "integer"}
+      }
+    },
+    "settings": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["autoPlay", "rememberVolume", "autoFullscreen", "backend", "networkTimeout", "retryCount", "defaultPlaylistId", "defaultChannelId"],
+      "properties": {
+        "autoPlay": {"type": "boolean"},
+        "rememberVolume": {"type": "boolean"},
+        "autoFullscreen": {"type": "boolean"},
+        "backend": {"enum": ["auto", "native", "hls"]},
+        "networkTimeout": {"type": "integer", "minimum": 3000, "maximum": 60000},
+        "retryCount": {"type": "integer", "minimum": 0, "maximum": 5},
+        "defaultPlaylistId": {"type": "string", "maxLength": 100},
+        "defaultChannelId": {"type": "string", "maxLength": 200}
+      }
+    },
+    "epg": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["url", "lastLoadedAt"],
+      "properties": {
+        "url": {"type": "string", "maxLength": 8192},
+        "lastLoadedAt": {"type": ["integer", "null"]}
+      }
+    }
+  }
+}

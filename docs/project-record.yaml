@@ -1,0 +1,87 @@
+project:
+  id: open-tv
+  name: 开源电视
+  english_name: Open TV
+  path: /Volumes/workspace/project/open-tv
+  status: tv-first-pc-mvp-electron-cross-platform-contract-android-tv-shell
+  baseline_date: 2026-10-09
+  first_target: PC desktop (Windows, macOS, Linux)
+  next_targets:
+    - Android
+    - Android TV / Google TV
+scope:
+  mvp:
+    - remote_m3u_import
+    - local_m3u_import
+    - channel_search_and_groups
+    - last_channel_resume
+    - hls_playback
+    - playlist_refresh_and_switch
+    - osd_keyboard_and_fullscreen
+    - local_settings
+  later:
+    - xmltv_epg
+    - active_channel_health_checks
+    - android_tv
+    - desktop_mpv_backend
+data_sources:
+  primary:
+    - name: iptv-org playlists
+      url: https://github.com/iptv-org/iptv
+      sample_urls:
+        - https://iptv-org.github.io/iptv/countries/cn.m3u
+        - https://iptv-org.github.io/iptv/categories/news.m3u
+    - name: iptv-org api
+      url: https://github.com/iptv-org/api
+      endpoints:
+        - https://iptv-org.github.io/api/channels.json
+        - https://iptv-org.github.io/api/streams.json
+  policy:
+    - use_public_or_authorized_sources_only
+    - do_not_bypass_authentication_or_geo_restrictions
+    - do_not_proxy_or_store_video_streams
+technology:
+  prototype: vite_typescript_html_css
+  web_player: html5_hls_adapter_with_hls_js
+  local_state: electron_user_data_json_or_local_storage
+  desktop: electron_plus_vanilla_typescript_with_mpv_option
+  android: kotlin_compose_media3
+  tv: android_tv_kotlin_compose_media3
+artifacts:
+  - index.html
+  - styles.css
+  - README.md
+  - docs/README.md
+  - docs/09-engineering-plan.md
+  - package.json
+  - src/main/main.ts
+  - src/preload/preload.ts
+  - src/core/m3u.ts
+  - src/core/epg.ts
+  - src/core/config.ts
+  - src/core/source-health.ts
+  - src/renderer/app.ts
+  - src/renderer/playback/hls-adapter.ts
+  - src/renderer/services.ts
+  - tests/core.test.ts
+  - tests/fixtures/sample.m3u
+  - tests/fixtures/sample.xmltv
+  - src/shared/models.ts
+  - platforms/android/README.md
+  - platforms/android/settings.gradle.kts
+  - platforms/android/build.gradle.kts
+  - platforms/android/app/build.gradle.kts
+  - platforms/android/app/src/main/AndroidManifest.xml
+  - platforms/android/app/src/main/kotlin/org/opentv/android/OpenTvActivity.kt
+  - platforms/android/app/src/main/kotlin/org/opentv/android/Media3PlaybackPort.kt
+  - platforms/android/app/src/main/kotlin/org/opentv/android/AndroidConfigStore.kt
+  - platforms/android/app/src/main/kotlin/org/opentv/android/AndroidConfigCodec.kt
+  - platforms/android/app/src/main/kotlin/org/opentv/android/AndroidPlaylistLoader.kt
+  - scripts/check-portable-contract.mjs
+  - release/Open TV-0.1.0-arm64.dmg
+  - release/Open TV-0.1.0-arm64-mac.zip
+  - platforms/android/src/main/kotlin/org/opentv/shared/ConfigModels.kt
+  - platforms/android/src/main/kotlin/org/opentv/shared/M3uParser.kt
+  - platforms/android/src/main/kotlin/org/opentv/shared/PlaybackPort.kt
+  - platforms/android/src/main/kotlin/org/opentv/shared/StartupSelection.kt
+  - platforms/android/src/main/kotlin/org/opentv/tv/TvNavigation.kt

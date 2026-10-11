@@ -1,0 +1,9 @@
+#EXTM3U
+#EXTINF:-1 tvg-id="news-1" tvg-chno="1" group-title="新闻",示例新闻, 东部
+https://example.com/live/news-1.m3u8
+#EXTINF:-1 tvg-id="sports-1" tvg-chno="2" group-title="体育",示例体育
+https://example.com/live/sports-1.m3u8
+#EXTINF:-1 group-title="测试",不安全地址
+http://example.com/live/insecure.m3u8
+#EXTINF:-1 group-title="测试",重复地址
+https://example.com/live/news-1.m3u8
